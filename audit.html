@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="style.css">
+<h1>Audit Logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Action</th>
+      <th>IP</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody id="logs"></tbody>
+</table>
+
+<script src="app.js"></script>
+<script>
+  async function loadLogs() {
+    const res = await fetch('/api/audit');
+    const logs = await res.json();
+    const tbody = document.getElementById('logs');
+    tbody.innerHTML = '';
+    logs.forEach(log => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${log.userEmail}</td>
+        <td>${log.action}</td>
+        <td>${log.ipAddress}</td>
+        <td>${new Date(log.createdAt).toLocaleString()}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  loadLogs();

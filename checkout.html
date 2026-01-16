@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Checkout</h1>
+
+<input id="email" placeholder="Email">
+<button onclick="pay()">Pay R500</button>
+
+<script src="app.js"></script>
+<script>
+  function pay() {
+    const email = document.getElementById('email').value;
+    if (!email) {
+      alert('Please enter your email.');
+      return;
+    }
+    // Simulate payment processing
+    alert(`Processing payment of R500 for ${email}`);
+    // Here you would typically call your backend to process the payment
+  }
+</script>
+</body>
+</html>

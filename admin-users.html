@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="style.css">
+<h1>Admin Users</h1>
+
+<input id="email" placeholder="Email">
+<input id="password" placeholder="Password">
+<select id="role">
+  <option>Admin</option>
+  <option>Staff</option>
+</select>
+
+<button onclick="createUser()">Create</button>
+
+<ul id="list"></ul>
+
+<script src="app.js"></script>
+<script>
+  async function loadUsers() {
+    const res = await fetch('/api/admin/users');
+    const users = await res.json();
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    users.forEach(user => {
+      const li = document.createElement('li');
+      li.textContent = `${user.email} - ${user.role}`;
+      list.appendChild(li);
+    });
+  }
+
+  async function createUser() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const role = document.getElementById('role').value;
+
+    const res = await fetch('/api/admin/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, role })
+    });
+
+    if (res.ok) {
+      alert('User created successfully');
+      loadUsers();
+    } else {
+      alert('Error creating user');
+    }
+  }
+
+  loadUsers();
